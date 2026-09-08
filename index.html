@@ -1,743 +1,1170 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>DALAL CHECK — দালাল চেক</title>
+<title>দালাল চেক | DALAL CHECK</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --blue:#0866ff;
+    --dark-blue:#0645b8;
+    --green:#00a86b;
+    --orange:#ff8a00;
+    --red:#e53935;
+    --dark:#172033;
+    --gray:#667085;
+    --light:#f5f8fc;
+    --white:#ffffff;
+    --border:#e6eaf0;
+}
+
+body{
+    font-family:Arial,"Noto Sans Bengali",sans-serif;
+    background:#f7f9fc;
+    color:var(--dark);
+    line-height:1.6;
+}
+
+/* TOP BAR */
+.topbar{
+    background:#ffffff;
+    border-bottom:1px solid var(--border);
+    height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 5%;
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+
+.logo-area{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    text-decoration:none;
+    color:var(--dark);
+}
+
+.logo{
+    width:46px;
+    height:52px;
+    background:linear-gradient(145deg,#0878ff,#0649c8);
+    clip-path:polygon(50% 0%,92% 15%,88% 68%,50% 100%,12% 68%,8% 15%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+    color:white;
+    filter:drop-shadow(0 5px 8px rgba(0,80,200,.25));
+}
+
+.logo-text strong{
+    display:block;
+    font-size:18px;
+    letter-spacing:.5px;
+}
+
+.logo-text small{
+    color:var(--green);
+    font-size:11px;
+    font-weight:bold;
+}
+
+.menu-btn{
+    border:0;
+    background:#eef5ff;
+    color:var(--blue);
+    width:43px;
+    height:43px;
+    border-radius:12px;
+    font-size:23px;
+    cursor:pointer;
+}
+
+/* SIDE MENU */
+.side-menu{
+    position:fixed;
+    top:0;
+    right:-310px;
+    width:290px;
+    height:100vh;
+    background:white;
+    z-index:2000;
+    box-shadow:-10px 0 35px rgba(0,0,0,.15);
+    transition:.3s;
+    padding:25px 20px;
+}
+
+.side-menu.active{
+    right:0;
+}
+
+.side-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:25px;
+}
+
+.close{
+    border:0;
+    background:#fff1f1;
+    color:#e53935;
+    width:38px;
+    height:38px;
+    border-radius:10px;
+    font-size:20px;
+}
+
+.side-menu a{
+    display:block;
+    text-decoration:none;
+    color:#344054;
+    padding:14px 12px;
+    border-radius:10px;
+    margin:4px 0;
+    font-weight:600;
+}
+
+.side-menu a:hover{
+    background:#eef5ff;
+    color:var(--blue);
+}
+
+.overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.35);
+    z-index:1500;
+}
+
+.overlay.active{
+    display:block;
+}
+
+/* HERO */
+.hero{
+    background:
+    linear-gradient(135deg,#0568ff 0%,#0878ee 55%,#00a86b 100%);
+    color:white;
+    padding:70px 5% 85px;
+    position:relative;
+    overflow:hidden;
+}
+
+.hero:after{
+    content:"";
+    position:absolute;
+    width:350px;
+    height:350px;
+    border-radius:50%;
+    background:rgba(255,255,255,.08);
+    right:-100px;
+    top:-100px;
+}
+
+.hero-content{
+    max-width:850px;
+    margin:auto;
+    text-align:center;
+    position:relative;
+    z-index:2;
+}
+
+.badge{
+    display:inline-block;
+    background:rgba(255,255,255,.16);
+    border:1px solid rgba(255,255,255,.25);
+    padding:7px 15px;
+    border-radius:50px;
+    font-size:13px;
+    margin-bottom:18px;
+}
+
+.hero h1{
+    font-size:clamp(32px,6vw,55px);
+    line-height:1.15;
+    margin-bottom:14px;
+    font-weight:800;
+}
+
+.hero p{
+    font-size:17px;
+    opacity:.94;
+    max-width:650px;
+    margin:0 auto 28px;
+}
+
+/* SEARCH */
+.search-box{
+    max-width:720px;
+    margin:auto;
+    background:white;
+    padding:7px;
+    border-radius:15px;
+    display:flex;
+    box-shadow:0 15px 40px rgba(0,0,0,.18);
+}
+
+.search-box input{
+    flex:1;
+    border:0;
+    outline:0;
+    padding:15px;
+    font-size:15px;
+    min-width:0;
+}
+
+.search-box button{
+    border:0;
+    background:var(--orange);
+    color:white;
+    padding:0 22px;
+    border-radius:11px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.hero-buttons{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    margin-top:18px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    padding:13px 20px;
+    border-radius:10px;
+    border:0;
+    text-decoration:none;
+    font-weight:bold;
+    cursor:pointer;
+    display:inline-block;
+}
+
+.btn-white{
+    background:white;
+    color:var(--blue);
+}
+
+.btn-orange{
+    background:var(--orange);
+    color:white;
+}
+
+/* CONTAINER */
+.container{
+    max-width:1150px;
+    margin:auto;
+    padding:0 18px;
+}
+
+.section{
+    padding:55px 0;
+}
+
+.section-title{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.section-title h2{
+    font-size:28px;
+    margin-bottom:7px;
+}
+
+.section-title p{
+    color:var(--gray);
+}
+
+/* STATS */
+.stats{
+    margin-top:-35px;
+    position:relative;
+    z-index:5;
+}
+
+.stats-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+}
+
+.stat{
+    background:white;
+    border-radius:15px;
+    padding:22px;
+    text-align:center;
+    box-shadow:0 8px 25px rgba(20,50,90,.08);
+    border:1px solid var(--border);
+}
+
+.stat .number{
+    font-size:29px;
+    font-weight:800;
+    color:var(--blue);
+}
+
+.stat:nth-child(2) .number{
+    color:var(--green);
+}
+
+.stat:nth-child(3) .number{
+    color:var(--orange);
+}
+
+.stat:nth-child(4) .number{
+    color:#8b5cf6;
+}
+
+.stat span{
+    color:var(--gray);
+    font-size:13px;
+}
+
+/* FEATURES */
+.features{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.feature{
+    background:white;
+    padding:27px;
+    border-radius:15px;
+    border:1px solid var(--border);
+    transition:.2s;
+}
+
+.feature:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.icon{
+    width:50px;
+    height:50px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:13px;
+    font-size:25px;
+    margin-bottom:15px;
+    background:#eef5ff;
+}
+
+.feature:nth-child(2) .icon{
+    background:#e9fff6;
+}
+
+.feature:nth-child(3) .icon{
+    background:#fff5e8;
+}
+
+.feature h3{
+    margin-bottom:7px;
+}
+
+.feature p{
+    color:var(--gray);
+    font-size:14px;
+}
+
+/* COUNTRY */
+.country-grid{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:13px;
+}
+
+.country{
+    background:white;
+    padding:17px 10px;
+    text-align:center;
+    border:1px solid var(--border);
+    border-radius:13px;
+}
+
+.country b{
+    display:block;
+    color:var(--blue);
+    font-size:20px;
+}
+
+.country span{
+    font-size:13px;
+    color:var(--gray);
+}
+
+/* REPORTS */
+.report-list{
+    display:grid;
+    gap:13px;
+}
+
+.report{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:19px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+}
+
+.report-left h3{
+    font-size:16px;
+    margin-bottom:4px;
+}
+
+.report-left p{
+    color:var(--gray);
+    font-size:13px;
+}
+
+.status{
+    background:#fff5e6;
+    color:#c66b00;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:bold;
+    white-space:nowrap;
+}
+
+/* TOP AGENCIES */
+.agency-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+}
+
+.agency{
+    background:white;
+    border-radius:15px;
+    padding:21px;
+    border:1px solid var(--border);
+}
+
+.agency-rank{
+    color:var(--orange);
+    font-size:13px;
+    font-weight:bold;
+}
+
+.agency h3{
+    margin:5px 0;
+}
+
+.agency p{
+    color:var(--gray);
+    font-size:13px;
+}
+
+.complaint-count{
+    margin-top:13px;
+    display:inline-block;
+    background:#fff0ef;
+    color:var(--red);
+    padding:6px 10px;
+    border-radius:8px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+/* LOCATION */
+.location-box{
+    background:linear-gradient(135deg,#062f82,#0878ee);
+    color:white;
+    padding:38px;
+    border-radius:20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+}
+
+.location-box p{
+    opacity:.9;
+    margin-top:5px;
+}
+
+.location-btn{
+    background:white;
+    color:var(--blue);
+    padding:13px 20px;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:bold;
+    white-space:nowrap;
+}
+
+/* SAFETY */
+.safety{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+}
+
+.tip{
+    background:white;
+    border:1px solid var(--border);
+    border-left:4px solid var(--green);
+    padding:17px;
+    border-radius:10px;
+}
+
+.tip b{
+    display:block;
+    margin-bottom:3px;
+}
+
+.tip span{
+    color:var(--gray);
+    font-size:13px;
+}
+
+/* FOOTER */
+footer{
+    background:#101828;
+    color:white;
+    padding:45px 5% 25px;
+}
+
+.footer-grid{
+    max-width:1150px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr;
+    gap:35px;
+}
+
+footer h3{
+    margin-bottom:10px;
+}
+
+footer p,footer a{
+    color:#aab4c5;
+    font-size:13px;
+}
+
+footer a{
+    text-decoration:none;
+    display:block;
+    margin:6px 0;
+}
+
+.copyright{
+    max-width:1150px;
+    margin:30px auto 0;
+    padding-top:20px;
+    border-top:1px solid #263044;
+    text-align:center;
+    color:#8e9aad;
+    font-size:12px;
+}
+
+/* MODAL */
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    z-index:3000;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modal.active{
+    display:flex;
+}
+
+.modal-box{
+    background:white;
+    max-width:520px;
+    width:100%;
+    border-radius:18px;
+    padding:27px;
+}
+
+.modal-box h2{
+    margin-bottom:10px;
+}
+
+.modal-box p{
+    color:var(--gray);
+    font-size:14px;
+}
+
+.modal-close{
+    margin-top:20px;
+    background:var(--blue);
+    color:white;
+    border:0;
+    padding:12px 20px;
+    border-radius:9px;
+}
+
+/* MOBILE */
+@media(max-width:800px){
+
+    .stats-grid{
+        grid-template-columns:repeat(2,1fr);
     }
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f9ff;
-      color: #172033;
-      line-height: 1.6;
+    .features{
+        grid-template-columns:1fr;
     }
 
-    /* Header */
-    header {
-      background: linear-gradient(135deg, #087df5, #00a878);
-      color: white;
-      padding: 15px 18px;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+    .country-grid{
+        grid-template-columns:repeat(2,1fr);
     }
 
-    .nav {
-      max-width: 1100px;
-      margin: auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    .agency-grid{
+        grid-template-columns:1fr;
     }
 
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: bold;
+    .location-box{
+        flex-direction:column;
+        align-items:flex-start;
     }
 
-    .logo-icon {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      background: white;
-      color: #087df5;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 23px;
+    .safety{
+        grid-template-columns:1fr;
     }
 
-    .logo-text {
-      font-size: 18px;
+    .footer-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:500px){
+
+    .topbar{
+        padding:0 16px;
     }
 
-    .logo-text small {
-      display: block;
-      font-size: 11px;
-      opacity: .9;
+    .hero{
+        padding:50px 16px 70px;
     }
 
-    .menu-btn {
-      background: rgba(255,255,255,.18);
-      border: 0;
-      color: white;
-      font-size: 27px;
-      width: 45px;
-      height: 45px;
-      border-radius: 10px;
-      cursor: pointer;
+    .search-box{
+        flex-direction:column;
+        padding:6px;
+        gap:6px;
     }
 
-    /* Side menu */
-    .side-menu {
-      position: fixed;
-      top: 0;
-      right: -310px;
-      width: 290px;
-      height: 100%;
-      background: white;
-      z-index: 2000;
-      box-shadow: -5px 0 20px rgba(0,0,0,.2);
-      transition: .3s;
-      padding: 25px 20px;
-      overflow-y: auto;
+    .search-box button{
+        padding:13px;
     }
 
-    .side-menu.open {
-      right: 0;
+    .hero h1{
+        font-size:34px;
     }
 
-    .close-btn {
-      float: right;
-      font-size: 28px;
-      border: 0;
-      background: none;
-      cursor: pointer;
+    .hero p{
+        font-size:15px;
     }
 
-    .side-menu h2 {
-      margin: 35px 0 20px;
-      color: #087df5;
+    .stats-grid{
+        gap:10px;
     }
 
-    .side-menu a {
-      display: block;
-      text-decoration: none;
-      color: #172033;
-      padding: 13px 8px;
-      border-bottom: 1px solid #eee;
-      font-size: 16px;
+    .stat{
+        padding:17px 8px;
     }
 
-    .side-menu a:hover {
-      color: #087df5;
-      background: #f2f8ff;
+    .stat .number{
+        font-size:24px;
     }
 
-    /* Hero */
-    .hero {
-      background: linear-gradient(135deg, #087df5, #00a878);
-      color: white;
-      padding: 55px 20px 65px;
-      text-align: center;
+    .report{
+        align-items:flex-start;
+        flex-direction:column;
     }
 
-    .hero h1 {
-      font-size: 34px;
-      line-height: 1.25;
-      margin-bottom: 12px;
+    .location-box{
+        padding:28px 22px;
     }
-
-    .hero p {
-      font-size: 17px;
-      margin-bottom: 25px;
-    }
-
-    .search-box {
-      max-width: 650px;
-      margin: auto;
-      background: white;
-      border-radius: 14px;
-      padding: 7px;
-      display: flex;
-      box-shadow: 0 8px 25px rgba(0,0,0,.18);
-    }
-
-    .search-box input {
-      flex: 1;
-      border: 0;
-      outline: 0;
-      padding: 14px;
-      font-size: 15px;
-      min-width: 0;
-    }
-
-    .search-box button {
-      border: 0;
-      background: #ff8a00;
-      color: white;
-      padding: 0 18px;
-      border-radius: 10px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .buttons {
-      margin-top: 22px;
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      border: 0;
-      padding: 13px 20px;
-      border-radius: 10px;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 15px;
-    }
-
-    .btn-orange {
-      background: #ff8a00;
-      color: white;
-    }
-
-    .btn-white {
-      background: white;
-      color: #087df5;
-    }
-
-    /* Container */
-    .container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 35px 18px;
-    }
-
-    /* Stats */
-    .stats {
-      margin-top: -35px;
-      position: relative;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-    }
-
-    .stat {
-      background: white;
-      padding: 20px 10px;
-      text-align: center;
-      border-radius: 14px;
-      box-shadow: 0 5px 18px rgba(0,0,0,.08);
-    }
-
-    .stat strong {
-      display: block;
-      font-size: 25px;
-      color: #087df5;
-    }
-
-    .stat span {
-      font-size: 12px;
-      color: #667085;
-    }
-
-    /* Sections */
-    section {
-      margin-bottom: 40px;
-    }
-
-    .section-title {
-      font-size: 24px;
-      margin-bottom: 18px;
-    }
-
-    .section-title span {
-      color: #087df5;
-    }
-
-    /* Feature cards */
-    .features {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-    }
-
-    .feature {
-      background: white;
-      padding: 23px;
-      border-radius: 16px;
-      box-shadow: 0 4px 15px rgba(0,0,0,.06);
-    }
-
-    .feature-icon {
-      width: 50px;
-      height: 50px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 25px;
-      background: #e8f3ff;
-      margin-bottom: 13px;
-    }
-
-    .feature h3 {
-      margin-bottom: 7px;
-    }
-
-    .feature p {
-      color: #667085;
-      font-size: 14px;
-    }
-
-    /* Reports */
-    .report {
-      background: white;
-      border-radius: 14px;
-      padding: 18px;
-      margin-bottom: 12px;
-      box-shadow: 0 3px 12px rgba(0,0,0,.06);
-      border-left: 5px solid #087df5;
-    }
-
-    .report-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .badge {
-      background: #e8fff5;
-      color: #00895f;
-      padding: 4px 9px;
-      border-radius: 20px;
-      font-size: 11px;
-      white-space: nowrap;
-    }
-
-    .report p {
-      color: #667085;
-      font-size: 13px;
-      margin-top: 5px;
-    }
-
-    /* Safety */
-    .safety {
-      background: #fff8eb;
-      border-radius: 18px;
-      padding: 25px;
-      border: 1px solid #ffe1ae;
-    }
-
-    .safety li {
-      margin: 10px 0;
-      list-style: none;
-    }
-
-    .safety li::before {
-      content: "✓";
-      color: #00a878;
-      font-weight: bold;
-      margin-right: 8px;
-    }
-
-    /* CTA */
-    .cta {
-      background: linear-gradient(135deg, #087df5, #00a878);
-      color: white;
-      border-radius: 20px;
-      padding: 35px 20px;
-      text-align: center;
-    }
-
-    .cta h2 {
-      margin-bottom: 10px;
-    }
-
-    .cta p {
-      margin-bottom: 20px;
-    }
-
-    /* Footer */
-    footer {
-      background: #101828;
-      color: white;
-      padding: 35px 20px;
-      text-align: center;
-    }
-
-    footer p {
-      color: #98a2b3;
-      font-size: 13px;
-      margin-top: 8px;
-    }
-
-    /* Mobile */
-    @media(max-width: 700px) {
-      .hero h1 {
-        font-size: 28px;
-      }
-
-      .stats {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .features {
-        grid-template-columns: 1fr;
-      }
-
-      .search-box {
-        flex-direction: column;
-        background: transparent;
-        box-shadow: none;
-        gap: 8px;
-      }
-
-      .search-box input {
-        border-radius: 10px;
-        padding: 15px;
-      }
-
-      .search-box button {
-        height: 48px;
-      }
-    }
-  </style>
+}
+</style>
 </head>
 
 <body>
 
-  <!-- Header -->
-  <header>
-    <div class="nav">
+<!-- HEADER -->
+<header class="topbar">
 
-      <div class="logo">
-        <div class="logo-icon">🛡️</div>
+<a href="#" class="logo-area">
+    <div class="logo">✈</div>
+    <div class="logo-text">
+        <strong>দালাল চেক</strong>
+        <small>DALAL CHECK</small>
+    </div>
+</a>
+
+<button class="menu-btn" onclick="openMenu()">☰</button>
+
+</header>
+
+
+<!-- SIDE MENU -->
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+<nav class="side-menu" id="sideMenu">
+
+<div class="side-head">
+    <div class="logo-area">
+        <div class="logo">✈</div>
         <div class="logo-text">
-          দালাল চেক
-          <small>DALAL CHECK</small>
+            <strong>দালাল চেক</strong>
+            <small>DALAL CHECK</small>
         </div>
-      </div>
-
-      <button class="menu-btn" onclick="openMenu()">☰</button>
-
-    </div>
-  </header>
-
-  <!-- Side Menu -->
-  <div class="side-menu" id="sideMenu">
-
-    <button class="close-btn" onclick="closeMenu()">×</button>
-
-    <h2>DALAL CHECK</h2>
-
-    <a href="#home" onclick="closeMenu()">🏠 Home</a>
-    <a href="#check" onclick="closeMenu()">🔎 দালাল যাচাই করুন</a>
-    <a href="#report" onclick="closeMenu()">📝 অভিযোগ করুন</a>
-    <a href="#location" onclick="closeMenu()">📍 Check My Location</a>
-    <a href="#agencies" onclick="closeMenu()">🏢 Agencies</a>
-    <a href="#countries" onclick="closeMenu()">🌍 Countries</a>
-    <a href="#reports" onclick="closeMenu()">📋 Recent Complaints</a>
-    <a href="#safety" onclick="closeMenu()">🛡️ Safety Guide</a>
-    <a href="#about" onclick="closeMenu()">ℹ️ About</a>
-    <a href="#contact" onclick="closeMenu()">📞 Contact</a>
-
-    <hr style="margin:20px 0">
-
-    <a href="#">বাংলা | English</a>
-
-  </div>
-
-  <!-- Hero -->
-  <div class="hero" id="home">
-
-    <h1>বিদেশ যাওয়ার আগে<br>দালাল যাচাই করুন</h1>
-
-    <p>Check Before You Pay</p>
-
-    <div class="search-box" id="check">
-
-      <input
-        type="text"
-        id="searchInput"
-        placeholder="দালালের নাম, মোবাইল, Agency বা RL Number লিখুন"
-      >
-
-      <button onclick="searchAgent()">🔎 Search</button>
-
     </div>
 
-    <div class="buttons">
+    <button class="close" onclick="closeMenu()">×</button>
+</div>
 
-      <button class="btn btn-orange" onclick="reportAlert()">
-        📝 অভিযোগ করুন
-      </button>
+<a href="#home" onclick="closeMenu()">🏠 হোম</a>
+<a href="#check" onclick="closeMenu()">🔎 দালাল যাচাই করুন</a>
+<a href="#report" onclick="showReport()">📝 অভিযোগ করুন</a>
+<a href="#location" onclick="closeMenu()">📍 Check My Location</a>
+<a href="#agencies" onclick="closeMenu()">🏢 Agencies</a>
+<a href="#countries" onclick="closeMenu()">🌍 Countries</a>
+<a href="#reports" onclick="closeMenu()">📋 Recent Complaints</a>
+<a href="#safety" onclick="closeMenu()">🛡️ Safety Guide</a>
+<a href="#about" onclick="closeMenu()">ℹ️ About</a>
+<a href="#contact" onclick="closeMenu()">📞 Contact</a>
 
-      <button class="btn btn-white" onclick="searchAgent()">
-        🔎 দালাল যাচাই করুন
-      </button>
+</nav>
 
-    </div>
 
-  </div>
+<!-- HERO -->
+<section class="hero" id="home">
 
-  <!-- Main -->
-  <main class="container">
+<div class="hero-content">
 
-    <!-- Stats -->
-    <div class="stats">
+<div class="badge">🛡️ নিরাপদে বিদেশ যাওয়ার জন্য তথ্যভিত্তিক প্ল্যাটফর্ম</div>
 
-      <div class="stat">
-        <strong>0</strong>
-        <span>মোট রিপোর্ট</span>
-      </div>
+<h1>বিদেশ যাওয়ার আগে<br>দালাল যাচাই করুন</h1>
 
-      <div class="stat">
-        <strong>0</strong>
-        <span>দালাল / এজেন্সি</span>
-      </div>
+<p>
+Check Before You Pay — কোনো এজেন্ট বা রিক্রুটিং এজেন্সিকে টাকা দেওয়ার আগে
+অন্যদের রিপোর্ট ও তথ্য যাচাই করুন।
+</p>
 
-      <div class="stat">
-        <strong>৳0</strong>
-        <span>রিপোর্টেড অর্থ</span>
-      </div>
+<div class="search-box" id="check">
 
-      <div class="stat">
-        <strong>0</strong>
-        <span>সমাধান হয়েছে</span>
-      </div>
+<input
+type="text"
+id="searchInput"
+placeholder="এজেন্ট, এজেন্সি, মোবাইল বা RL নম্বর লিখুন..."
+>
 
-    </div>
+<button onclick="searchAgent()">🔎 যাচাই</button>
 
-    <br><br>
+</div>
 
-    <!-- Features -->
-    <section>
+<div class="hero-buttons">
 
-      <h2 class="section-title">
-        <span>DALAL CHECK</span> কীভাবে সাহায্য করবে?
-      </h2>
+<button class="btn btn-orange" onclick="showReport()">
+📝 অভিযোগ করুন
+</button>
 
-      <div class="features">
+<a href="#agencies" class="btn btn-white">
+🏢 এজেন্সি দেখুন
+</a>
 
-        <div class="feature">
-          <div class="feature-icon">🔎</div>
-          <h3>দালাল যাচাই</h3>
-          <p>
-            দালালের নাম, মোবাইল নম্বর, Agency বা RL Number দিয়ে রিপোর্ট খুঁজুন।
-          </p>
-        </div>
+</div>
 
-        <div class="feature">
-          <div class="feature-icon">📝</div>
-          <h3>অভিযোগ করুন</h3>
-          <p>
-            আপনার অভিজ্ঞতা ও প্রমাণ জমা দিন। প্রকাশের আগে প্রশাসন যাচাই করবে।
-          </p>
-        </div>
+</div>
+</section>
 
-        <div class="feature">
-          <div class="feature-icon">📍</div>
-          <h3>কাছাকাছি অফিস</h3>
-          <p>
-            Check My Location ব্যবহার করে আপনার আশেপাশের রিপোর্টেড অফিস দেখতে পারবেন।
-          </p>
-        </div>
 
-      </div>
+<!-- STATS -->
+<section class="stats">
 
-    </section>
+<div class="container">
 
-    <!-- Recent Reports -->
-    <section id="reports">
+<div class="stats-grid">
 
-      <h2 class="section-title">
-        📋 সাম্প্রতিক <span>অভিযোগ</span>
-      </h2>
+<div class="stat">
+<div class="number">0</div>
+<span>মোট অভিযোগ</span>
+</div>
 
-      <div class="report">
+<div class="stat">
+<div class="number">0</div>
+<span>এজেন্ট / এজেন্সি</span>
+</div>
 
-        <div class="report-top">
-          <strong>উদাহরণ Agency</strong>
-          <span class="badge">Under Review</span>
-        </div>
+<div class="stat">
+<div class="number">৳0</div>
+<span>মোট রিপোর্টেড অর্থ</span>
+</div>
 
-        <p>দেশ: Saudi Arabia 🇸🇦</p>
-        <p>রিপোর্টেড অর্থ: ৳1,50,000</p>
+<div class="stat">
+<div class="number">0</div>
+<span>সমাধান হওয়া রিপোর্ট</span>
+</div>
 
-      </div>
+</div>
 
-      <div class="report">
+</div>
+</section>
 
-        <div class="report-top">
-          <strong>উদাহরণ Recruiting Agency</strong>
-          <span class="badge">Published</span>
-        </div>
 
-        <p>দেশ: Romania 🇷🇴</p>
-        <p>রিপোর্টেড অর্থ: ৳2,00,000</p>
+<!-- FEATURES -->
+<section class="section">
 
-      </div>
+<div class="container">
 
-      <div class="report">
+<div class="section-title">
+<h2>দালাল চেকে কী করতে পারবেন?</h2>
+<p>বিদেশ যাওয়ার আগে তথ্য যাচাই করুন এবং আপনার অভিজ্ঞতা জানান।</p>
+</div>
 
-        <div class="report-top">
-          <strong>উদাহরণ Broker</strong>
-          <span class="badge">Resolved</span>
-        </div>
+<div class="features">
 
-        <p>দেশ: Italy 🇮🇹</p>
-        <p>রিপোর্টেড অর্থ: ৳80,000</p>
+<div class="feature">
+<div class="icon">🔎</div>
+<h3>দালাল যাচাই</h3>
+<p>এজেন্ট, এজেন্সি, মোবাইল নম্বর অথবা RL নম্বর দিয়ে আগের রিপোর্ট খুঁজে দেখুন।</p>
+</div>
 
-      </div>
+<div class="feature">
+<div class="icon">📝</div>
+<h3>অভিযোগ রিপোর্ট</h3>
+<p>প্রমাণসহ আপনার অভিজ্ঞতা জমা দিন। প্রশাসনের যাচাইয়ের পর উপযুক্ত রিপোর্ট প্রকাশ করা হবে।</p>
+</div>
 
-    </section>
+<div class="feature">
+<div class="icon">🛡️</div>
+<h3>প্রমাণভিত্তিক তথ্য</h3>
+<p>রসিদ, লেনদেনের তথ্য, চ্যাট, চুক্তি বা অন্যান্য প্রাসঙ্গিক প্রমাণ যুক্ত করা যাবে।</p>
+</div>
 
-    <!-- Location -->
-    <section id="location">
+</div>
 
-      <div class="cta">
+</div>
+</section>
 
-        <h2>📍 Check My Location</h2>
 
-        <p>
-          আপনার আশেপাশে রিপোর্ট করা Agent বা Agency অফিস আছে কি না দেখুন।
-        </p>
+<!-- COUNTRIES -->
+<section class="section" id="countries">
 
-        <button class="btn btn-white" onclick="locationAlert()">
-          আমার Location Check করুন
-        </button>
+<div class="container">
 
-      </div>
+<div class="section-title">
+<h2>🌍 কোন দেশে কত অভিযোগ?</h2>
+<p>অনুমোদিত রিপোর্টের ভিত্তিতে দেশভিত্তিক তথ্য এখানে দেখা যাবে।</p>
+</div>
 
-    </section>
+<div class="country-grid">
 
-    <!-- Safety -->
-    <section id="safety">
+<div class="country">
+<b>0</b>
+<span>🇸🇦 সৌদি আরব</span>
+</div>
 
-      <h2 class="section-title">
-        🛡️ <span>Safety Guide</span>
-      </h2>
+<div class="country">
+<b>0</b>
+<span>🇷🇴 রোমানিয়া</span>
+</div>
 
-      <div class="safety">
+<div class="country">
+<b>0</b>
+<span>🇮🇹 ইতালি</span>
+</div>
 
-        <ul>
+<div class="country">
+<b>0</b>
+<span>🇦🇪 UAE</span>
+</div>
 
-          <li>RL Number যাচাই করুন।</li>
+<div class="country">
+<b>0</b>
+<span>🇲🇾 মালয়েশিয়া</span>
+</div>
 
-          <li>Job Offer ও Work Permit যাচাই করুন।</li>
+</div>
 
-          <li>প্রতিটি টাকা দেওয়ার পর Receipt রাখুন।</li>
+</div>
+</section>
 
-          <li>অপ্রয়োজনীয় Cash Payment এড়িয়ে চলুন।</li>
 
-          <li>চুক্তিপত্র ভালোভাবে পড়ুন।</li>
+<!-- TOP AGENCIES -->
+<section class="section" id="agencies">
 
-          <li>পাসপোর্ট অযথা কারও কাছে জমা দেবেন না।</li>
+<div class="container">
 
-          <li>টাকা দেওয়ার আগে DALAL CHECK-এ খুঁজে দেখুন।</li>
+<div class="section-title">
+<h2>🔥 সবচেয়ে বেশি রিপোর্ট হওয়া অফিস</h2>
+<p>এখানে সর্বাধিক প্রকাশিত অভিযোগ থাকা অফিস/এজেন্সিগুলো দেখা যাবে।</p>
+</div>
 
-        </ul>
+<div class="agency-grid">
 
-      </div>
+<div class="agency">
+<span class="agency-rank">#1 MOST REPORTED</span>
+<h3>ABC Overseas</h3>
+<p>ঢাকা • RL নম্বর: —</p>
+<span class="complaint-count">0টি অভিযোগ</span>
+</div>
 
-    </section>
+<div class="agency">
+<span class="agency-rank">#2 MOST REPORTED</span>
+<h3>XYZ Recruiting Agency</h3>
+<p>ঢাকা • RL নম্বর: —</p>
+<span class="complaint-count">0টি অভিযোগ</span>
+</div>
 
-    <!-- About -->
-    <section id="about">
+<div class="agency">
+<span class="agency-rank">#3 MOST REPORTED</span>
+<h3>Global Manpower Ltd.</h3>
+<p>ঢাকা • RL নম্বর: —</p>
+<span class="complaint-count">0টি অভিযোগ</span>
+</div>
 
-      <h2 class="section-title">
-        ℹ️ <span>DALAL CHECK</span> সম্পর্কে
-      </h2>
+</div>
 
-      <p>
-        DALAL CHECK একটি জনসচেতনতামূলক প্ল্যাটফর্মের ধারণা,
-        যেখানে বিদেশে চাকরি ও ভিসা সংক্রান্ত দালাল বা এজেন্সির
-        বিরুদ্ধে মানুষের রিপোর্ট সংরক্ষণ ও যাচাই করে প্রকাশ করা হবে।
-      </p>
+</div>
+</section>
 
-      <br>
 
-      <p>
-        প্রতিটি অভিযোগ প্রকাশের আগে প্রশাসনের পর্যালোচনার মধ্য দিয়ে যাবে।
-        ব্যবহারকারীর দেওয়া অভিযোগকে স্বয়ংক্রিয়ভাবে আদালত বা সরকারি সিদ্ধান্ত
-        হিসেবে গণ্য করা হবে না।
-      </p>
+<!-- RECENT REPORTS -->
+<section class="section" id="reports">
 
-    </section>
+<div class="container">
 
-    <!-- Report CTA -->
-    <section id="report">
+<div class="section-title">
+<h2>📋 সাম্প্রতিক অভিযোগ</h2>
+<p>অ্যাডমিন যাচাই ও অনুমোদনের পর প্রকাশিত রিপোর্ট।</p>
+</div>
 
-      <div class="cta">
+<div class="report-list">
 
-        <h2>আপনার সাথে প্রতারণা হয়েছে?</h2>
+<div class="report">
+<div class="report-left">
+<h3>এখনো কোনো রিপোর্ট প্রকাশিত হয়নি</h3>
+<p>প্রথম প্রমাণসহ অভিযোগটি জমা দিন।</p>
+</div>
+<span class="status">NO REPORTS</span>
+</div>
 
-        <p>
-          প্রমাণ থাকলে আমাদের প্ল্যাটফর্মে রিপোর্ট করুন।
-        </p>
+</div>
 
-        <button class="btn btn-orange" onclick="reportAlert()">
-          📝 অভিযোগ জমা দিন
-        </button>
+</div>
+</section>
 
-      </div>
 
-    </section>
+<!-- LOCATION -->
+<section class="section" id="location">
 
-  </main>
+<div class="container">
 
-  <!-- Footer -->
-  <footer id="contact">
+<div class="location-box">
 
-    <h3>🛡️ DALAL CHECK</h3>
+<div>
+<h2>📍 আপনার কাছাকাছি রিপোর্টেড অফিস খুঁজুন</h2>
+<p>শুধু আপনি নিজে Check My Location ব্যবহার করলে কাছাকাছি রিপোর্টেড অফিস দেখা যাবে।</p>
+</div>
 
-    <p>বিদেশ যাওয়ার আগে যাচাই করুন।</p>
+<button class="location-btn" onclick="checkLocation()">
+📍 Check My Location
+</button>
 
-    <p>Check Before You Pay.</p>
+</div>
 
-    <br>
+</div>
+</section>
 
-    <p>© 2026 DALAL CHECK. All rights reserved.</p>
 
-  </footer>
+<!-- SAFETY -->
+<section class="section" id="safety">
 
+<div class="container">
 
-  <script>
+<div class="section-title">
+<h2>🛡️ বিদেশ যাওয়ার আগে নিরাপত্তা নির্দেশনা</h2>
+<p>কোনো টাকা দেওয়ার আগে কয়েকটি বিষয় অবশ্যই যাচাই করুন।</p>
+</div>
 
-    function openMenu() {
-      document.getElementById("sideMenu").classList.add("open");
-    }
+<div class="safety">
 
-    function closeMenu() {
-      document.getElementById("sideMenu").classList.remove("open");
-    }
+<div class="tip">
+<b>01 — RL নম্বর যাচাই করুন</b>
+<span>রিক্রুটিং এজেন্সির অনুমোদিত তথ্য যাচাই করুন।</span>
+</div>
 
-    function searchAgent() {
+<div class="tip">
+<b>02 — চাকরির অফার যাচাই করুন</b>
+<span>Job offer, contract এবং work permit সম্পর্কে নিশ্চিত হন।</span>
+</div>
 
-      const value = document.getElementById("searchInput").value.trim();
+<div class="tip">
+<b>03 — টাকা দেওয়ার প্রমাণ রাখুন</b>
+<span>রসিদ, ব্যাংক, bKash বা Nagad transaction-এর প্রমাণ সংরক্ষণ করুন।</span>
+</div>
 
-      if (!value) {
-        alert("দয়া করে দালালের নাম, মোবাইল, Agency অথবা RL Number লিখুন।");
+<div class="tip">
+<b>04 — চুক্তি না পড়ে টাকা দেবেন না</b>
+<span>চাকরি, বেতন, দেশ ও অন্যান্য শর্ত ভালোভাবে বুঝে নিন।</span>
+</div>
+
+</div>
+
+</div>
+</section>
+
+
+<!-- ABOUT -->
+<section class="section" id="about">
+
+<div class="container">
+
+<div class="section-title">
+<h2>🛡️ DALAL CHECK সম্পর্কে</h2>
+<p>
+DALAL CHECK হলো বিদেশে চাকরি বা কাজের জন্য যাওয়ার আগে
+এজেন্ট ও রিক্রুটিং এজেন্সি সম্পর্কে ব্যবহারকারীদের রিপোর্ট ও অভিজ্ঞতা
+খুঁজে দেখার একটি তথ্যভিত্তিক প্ল্যাটফর্ম।
+</p>
+</div>
+
+</div>
+</section>
+
+
+<!-- FOOTER -->
+<footer id="contact">
+
+<div class="footer-grid">
+
+<div>
+<h3>🛡️ দালাল চেক</h3>
+<p>
+বিদেশ যাওয়ার আগে যাচাই করুন।  
+প্রমাণসহ তথ্য দিন।  
+অন্যদের সতর্ক হতে সাহায্য করুন।
+</p>
+</div>
+
+<div>
+<h3>Quick Links</h3>
+<a href="#home">হোম</a>
+<a href="#reports">Recent Reports</a>
+<a href="#agencies">Agencies</a>
+<a href="#safety">Safety Guide</a>
+</div>
+
+<div>
+<h3>Contact</h3>
+<a href="mailto:contact@dalalcheck.com">📧 Contact</a>
+<a href="#report" onclick="showReport()">📝 Report Complaint</a>
+</div>
+
+</div>
+
+<div class="copyright">
+© 2026 DALAL CHECK — দালাল চেক | তথ্য যাচাই করুন, নিরাপদে সিদ্ধান্ত নিন।
+</div>
+
+</footer>
+
+
+<!-- REPORT MODAL -->
+<div class="modal" id="reportModal">
+
+<div class="modal-box">
+
+<h2>📝 অভিযোগ করুন</h2>
+
+<p>
+অভিযোগ জমা দেওয়ার জন্য প্রমাণ প্রয়োজন হবে।
+রসিদ, লেনদেনের স্ক্রিনশট, চ্যাট, চুক্তি বা অন্যান্য প্রাসঙ্গিক
+ডকুমেন্ট পরবর্তীতে যুক্ত করার ব্যবস্থা থাকবে।
+</p>
+
+<p style="margin-top:12px;">
+⚠️ অভিযোগ প্রকাশের আগে DALAL CHECK প্রশাসন তা যাচাই করবে।
+</p>
+
+<button class="modal-close" onclick="closeReport()">
+ঠিক আছে
+</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+function openMenu(){
+    document.getElementById("sideMenu").classList.add("active");
+    document.getElementById("overlay").classList.add("active");
+}
+
+function closeMenu(){
+    document.getElementById("sideMenu").classList.remove("active");
+    document.getElementById("overlay").classList.remove("active");
+}
+
+function showReport(){
+    closeMenu();
+    document.getElementById("reportModal").classList.add("active");
+}
+
+function closeReport(){
+    document.getElementById("reportModal").classList.remove("active");
+}
+
+function searchAgent(){
+
+    const value=document.getElementById("searchInput").value.trim();
+
+    if(value===""){
+        alert("দয়া করে এজেন্ট, এজেন্সি, মোবাইল অথবা RL নম্বর লিখুন।");
         return;
-      }
-
-      alert(
-        "Search system এখনো তৈরি করা হয়নি।\n\nআপনি খুঁজেছেন: " + value
-      );
     }
 
-    function reportAlert() {
+    alert("🔎 Search system এখন Demo Mode-এ আছে। Database যুক্ত হলে এখানে প্রকৃত রিপোর্ট দেখাবে।");
+}
 
-      alert(
-        "অভিযোগ জমা দেওয়ার সিস্টেম পরবর্তী ধাপে তৈরি করা হবে।"
-      );
+function checkLocation(){
 
+    if(!navigator.geolocation){
+        alert("আপনার ব্রাউজারে Location সুবিধা পাওয়া যাচ্ছে না।");
+        return;
     }
 
-    function locationAlert() {
+    navigator.geolocation.getCurrentPosition(
+        function(){
+            alert("📍 Location পাওয়া গেছে। Map system যুক্ত হলে আপনার কাছাকাছি রিপোর্টেড অফিস এখানে দেখা যাবে।");
+        },
+        function(){
+            alert("Location permission দেওয়া হয়নি।");
+        }
+    );
+}
 
-      alert(
-        "Location Map পরবর্তী ধাপে যুক্ত করা হবে।"
-      );
-
-    }
-
-  </script>
+</script>
 
 </body>
 </html>
