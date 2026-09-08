@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>DALAL CHECK — দালাল চেক</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f9ff;
+      color: #172033;
+      line-height: 1.6;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #087df5, #00a878);
+      color: white;
+      padding: 15px 18px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+    }
+
+    .nav {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: bold;
+    }
+
+    .logo-icon {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: white;
+      color: #087df5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 23px;
+    }
+
+    .logo-text {
+      font-size: 18px;
+    }
+
+    .logo-text small {
+      display: block;
+      font-size: 11px;
+      opacity: .9;
+    }
+
+    .menu-btn {
+      background: rgba(255,255,255,.18);
+      border: 0;
+      color: white;
+      font-size: 27px;
+      width: 45px;
+      height: 45px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    /* Side menu */
+    .side-menu {
+      position: fixed;
+      top: 0;
+      right: -310px;
+      width: 290px;
+      height: 100%;
+      background: white;
+      z-index: 2000;
+      box-shadow: -5px 0 20px rgba(0,0,0,.2);
+      transition: .3s;
+      padding: 25px 20px;
+      overflow-y: auto;
+    }
+
+    .side-menu.open {
+      right: 0;
+    }
+
+    .close-btn {
+      float: right;
+      font-size: 28px;
+      border: 0;
+      background: none;
+      cursor: pointer;
+    }
+
+    .side-menu h2 {
+      margin: 35px 0 20px;
+      color: #087df5;
+    }
+
+    .side-menu a {
+      display: block;
+      text-decoration: none;
+      color: #172033;
+      padding: 13px 8px;
+      border-bottom: 1px solid #eee;
+      font-size: 16px;
+    }
+
+    .side-menu a:hover {
+      color: #087df5;
+      background: #f2f8ff;
+    }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(135deg, #087df5, #00a878);
+      color: white;
+      padding: 55px 20px 65px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 34px;
+      line-height: 1.25;
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      font-size: 17px;
+      margin-bottom: 25px;
+    }
+
+    .search-box {
+      max-width: 650px;
+      margin: auto;
+      background: white;
+      border-radius: 14px;
+      padding: 7px;
+      display: flex;
+      box-shadow: 0 8px 25px rgba(0,0,0,.18);
+    }
+
+    .search-box input {
+      flex: 1;
+      border: 0;
+      outline: 0;
+      padding: 14px;
+      font-size: 15px;
+      min-width: 0;
+    }
+
+    .search-box button {
+      border: 0;
+      background: #ff8a00;
+      color: white;
+      padding: 0 18px;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .buttons {
+      margin-top: 22px;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 0;
+      padding: 13px 20px;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .btn-orange {
+      background: #ff8a00;
+      color: white;
+    }
+
+    .btn-white {
+      background: white;
+      color: #087df5;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 35px 18px;
+    }
+
+    /* Stats */
+    .stats {
+      margin-top: -35px;
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .stat {
+      background: white;
+      padding: 20px 10px;
+      text-align: center;
+      border-radius: 14px;
+      box-shadow: 0 5px 18px rgba(0,0,0,.08);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 25px;
+      color: #087df5;
+    }
+
+    .stat span {
+      font-size: 12px;
+      color: #667085;
+    }
+
+    /* Sections */
+    section {
+      margin-bottom: 40px;
+    }
+
+    .section-title {
+      font-size: 24px;
+      margin-bottom: 18px;
+    }
+
+    .section-title span {
+      color: #087df5;
+    }
+
+    /* Feature cards */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+
+    .feature {
+      background: white;
+      padding: 23px;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,.06);
+    }
+
+    .feature-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 25px;
+      background: #e8f3ff;
+      margin-bottom: 13px;
+    }
+
+    .feature h3 {
+      margin-bottom: 7px;
+    }
+
+    .feature p {
+      color: #667085;
+      font-size: 14px;
+    }
+
+    /* Reports */
+    .report {
+      background: white;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 12px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.06);
+      border-left: 5px solid #087df5;
+    }
+
+    .report-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .badge {
+      background: #e8fff5;
+      color: #00895f;
+      padding: 4px 9px;
+      border-radius: 20px;
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .report p {
+      color: #667085;
+      font-size: 13px;
+      margin-top: 5px;
+    }
+
+    /* Safety */
+    .safety {
+      background: #fff8eb;
+      border-radius: 18px;
+      padding: 25px;
+      border: 1px solid #ffe1ae;
+    }
+
+    .safety li {
+      margin: 10px 0;
+      list-style: none;
+    }
+
+    .safety li::before {
+      content: "✓";
+      color: #00a878;
+      font-weight: bold;
+      margin-right: 8px;
+    }
+
+    /* CTA */
+    .cta {
+      background: linear-gradient(135deg, #087df5, #00a878);
+      color: white;
+      border-radius: 20px;
+      padding: 35px 20px;
+      text-align: center;
+    }
+
+    .cta h2 {
+      margin-bottom: 10px;
+    }
+
+    .cta p {
+      margin-bottom: 20px;
+    }
+
+    /* Footer */
+    footer {
+      background: #101828;
+      color: white;
+      padding: 35px 20px;
+      text-align: center;
+    }
+
+    footer p {
+      color: #98a2b3;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+
+    /* Mobile */
+    @media(max-width: 700px) {
+      .hero h1 {
+        font-size: 28px;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .features {
+        grid-template-columns: 1fr;
+      }
+
+      .search-box {
+        flex-direction: column;
+        background: transparent;
+        box-shadow: none;
+        gap: 8px;
+      }
+
+      .search-box input {
+        border-radius: 10px;
+        padding: 15px;
+      }
+
+      .search-box button {
+        height: 48px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="nav">
+
+      <div class="logo">
+        <div class="logo-icon">🛡️</div>
+        <div class="logo-text">
+          দালাল চেক
+          <small>DALAL CHECK</small>
+        </div>
+      </div>
+
+      <button class="menu-btn" onclick="openMenu()">☰</button>
+
+    </div>
+  </header>
+
+  <!-- Side Menu -->
+  <div class="side-menu" id="sideMenu">
+
+    <button class="close-btn" onclick="closeMenu()">×</button>
+
+    <h2>DALAL CHECK</h2>
+
+    <a href="#home" onclick="closeMenu()">🏠 Home</a>
+    <a href="#check" onclick="closeMenu()">🔎 দালাল যাচাই করুন</a>
+    <a href="#report" onclick="closeMenu()">📝 অভিযোগ করুন</a>
+    <a href="#location" onclick="closeMenu()">📍 Check My Location</a>
+    <a href="#agencies" onclick="closeMenu()">🏢 Agencies</a>
+    <a href="#countries" onclick="closeMenu()">🌍 Countries</a>
+    <a href="#reports" onclick="closeMenu()">📋 Recent Complaints</a>
+    <a href="#safety" onclick="closeMenu()">🛡️ Safety Guide</a>
+    <a href="#about" onclick="closeMenu()">ℹ️ About</a>
+    <a href="#contact" onclick="closeMenu()">📞 Contact</a>
+
+    <hr style="margin:20px 0">
+
+    <a href="#">বাংলা | English</a>
+
+  </div>
+
+  <!-- Hero -->
+  <div class="hero" id="home">
+
+    <h1>বিদেশ যাওয়ার আগে<br>দালাল যাচাই করুন</h1>
+
+    <p>Check Before You Pay</p>
+
+    <div class="search-box" id="check">
+
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="দালালের নাম, মোবাইল, Agency বা RL Number লিখুন"
+      >
+
+      <button onclick="searchAgent()">🔎 Search</button>
+
+    </div>
+
+    <div class="buttons">
+
+      <button class="btn btn-orange" onclick="reportAlert()">
+        📝 অভিযোগ করুন
+      </button>
+
+      <button class="btn btn-white" onclick="searchAgent()">
+        🔎 দালাল যাচাই করুন
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- Main -->
+  <main class="container">
+
+    <!-- Stats -->
+    <div class="stats">
+
+      <div class="stat">
+        <strong>0</strong>
+        <span>মোট রিপোর্ট</span>
+      </div>
+
+      <div class="stat">
+        <strong>0</strong>
+        <span>দালাল / এজেন্সি</span>
+      </div>
+
+      <div class="stat">
+        <strong>৳0</strong>
+        <span>রিপোর্টেড অর্থ</span>
+      </div>
+
+      <div class="stat">
+        <strong>0</strong>
+        <span>সমাধান হয়েছে</span>
+      </div>
+
+    </div>
+
+    <br><br>
+
+    <!-- Features -->
+    <section>
+
+      <h2 class="section-title">
+        <span>DALAL CHECK</span> কীভাবে সাহায্য করবে?
+      </h2>
+
+      <div class="features">
+
+        <div class="feature">
+          <div class="feature-icon">🔎</div>
+          <h3>দালাল যাচাই</h3>
+          <p>
+            দালালের নাম, মোবাইল নম্বর, Agency বা RL Number দিয়ে রিপোর্ট খুঁজুন।
+          </p>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">📝</div>
+          <h3>অভিযোগ করুন</h3>
+          <p>
+            আপনার অভিজ্ঞতা ও প্রমাণ জমা দিন। প্রকাশের আগে প্রশাসন যাচাই করবে।
+          </p>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon">📍</div>
+          <h3>কাছাকাছি অফিস</h3>
+          <p>
+            Check My Location ব্যবহার করে আপনার আশেপাশের রিপোর্টেড অফিস দেখতে পারবেন।
+          </p>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- Recent Reports -->
+    <section id="reports">
+
+      <h2 class="section-title">
+        📋 সাম্প্রতিক <span>অভিযোগ</span>
+      </h2>
+
+      <div class="report">
+
+        <div class="report-top">
+          <strong>উদাহরণ Agency</strong>
+          <span class="badge">Under Review</span>
+        </div>
+
+        <p>দেশ: Saudi Arabia 🇸🇦</p>
+        <p>রিপোর্টেড অর্থ: ৳1,50,000</p>
+
+      </div>
+
+      <div class="report">
+
+        <div class="report-top">
+          <strong>উদাহরণ Recruiting Agency</strong>
+          <span class="badge">Published</span>
+        </div>
+
+        <p>দেশ: Romania 🇷🇴</p>
+        <p>রিপোর্টেড অর্থ: ৳2,00,000</p>
+
+      </div>
+
+      <div class="report">
+
+        <div class="report-top">
+          <strong>উদাহরণ Broker</strong>
+          <span class="badge">Resolved</span>
+        </div>
+
+        <p>দেশ: Italy 🇮🇹</p>
+        <p>রিপোর্টেড অর্থ: ৳80,000</p>
+
+      </div>
+
+    </section>
+
+    <!-- Location -->
+    <section id="location">
+
+      <div class="cta">
+
+        <h2>📍 Check My Location</h2>
+
+        <p>
+          আপনার আশেপাশে রিপোর্ট করা Agent বা Agency অফিস আছে কি না দেখুন।
+        </p>
+
+        <button class="btn btn-white" onclick="locationAlert()">
+          আমার Location Check করুন
+        </button>
+
+      </div>
+
+    </section>
+
+    <!-- Safety -->
+    <section id="safety">
+
+      <h2 class="section-title">
+        🛡️ <span>Safety Guide</span>
+      </h2>
+
+      <div class="safety">
+
+        <ul>
+
+          <li>RL Number যাচাই করুন।</li>
+
+          <li>Job Offer ও Work Permit যাচাই করুন।</li>
+
+          <li>প্রতিটি টাকা দেওয়ার পর Receipt রাখুন।</li>
+
+          <li>অপ্রয়োজনীয় Cash Payment এড়িয়ে চলুন।</li>
+
+          <li>চুক্তিপত্র ভালোভাবে পড়ুন।</li>
+
+          <li>পাসপোর্ট অযথা কারও কাছে জমা দেবেন না।</li>
+
+          <li>টাকা দেওয়ার আগে DALAL CHECK-এ খুঁজে দেখুন।</li>
+
+        </ul>
+
+      </div>
+
+    </section>
+
+    <!-- About -->
+    <section id="about">
+
+      <h2 class="section-title">
+        ℹ️ <span>DALAL CHECK</span> সম্পর্কে
+      </h2>
+
+      <p>
+        DALAL CHECK একটি জনসচেতনতামূলক প্ল্যাটফর্মের ধারণা,
+        যেখানে বিদেশে চাকরি ও ভিসা সংক্রান্ত দালাল বা এজেন্সির
+        বিরুদ্ধে মানুষের রিপোর্ট সংরক্ষণ ও যাচাই করে প্রকাশ করা হবে।
+      </p>
+
+      <br>
+
+      <p>
+        প্রতিটি অভিযোগ প্রকাশের আগে প্রশাসনের পর্যালোচনার মধ্য দিয়ে যাবে।
+        ব্যবহারকারীর দেওয়া অভিযোগকে স্বয়ংক্রিয়ভাবে আদালত বা সরকারি সিদ্ধান্ত
+        হিসেবে গণ্য করা হবে না।
+      </p>
+
+    </section>
+
+    <!-- Report CTA -->
+    <section id="report">
+
+      <div class="cta">
+
+        <h2>আপনার সাথে প্রতারণা হয়েছে?</h2>
+
+        <p>
+          প্রমাণ থাকলে আমাদের প্ল্যাটফর্মে রিপোর্ট করুন।
+        </p>
+
+        <button class="btn btn-orange" onclick="reportAlert()">
+          📝 অভিযোগ জমা দিন
+        </button>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer id="contact">
+
+    <h3>🛡️ DALAL CHECK</h3>
+
+    <p>বিদেশ যাওয়ার আগে যাচাই করুন।</p>
+
+    <p>Check Before You Pay.</p>
+
+    <br>
+
+    <p>© 2026 DALAL CHECK. All rights reserved.</p>
+
+  </footer>
+
+
+  <script>
+
+    function openMenu() {
+      document.getElementById("sideMenu").classList.add("open");
+    }
+
+    function closeMenu() {
+      document.getElementById("sideMenu").classList.remove("open");
+    }
+
+    function searchAgent() {
+
+      const value = document.getElementById("searchInput").value.trim();
+
+      if (!value) {
+        alert("দয়া করে দালালের নাম, মোবাইল, Agency অথবা RL Number লিখুন।");
+        return;
+      }
+
+      alert(
+        "Search system এখনো তৈরি করা হয়নি।\n\nআপনি খুঁজেছেন: " + value
+      );
+    }
+
+    function reportAlert() {
+
+      alert(
+        "অভিযোগ জমা দেওয়ার সিস্টেম পরবর্তী ধাপে তৈরি করা হবে।"
+      );
+
+    }
+
+    function locationAlert() {
+
+      alert(
+        "Location Map পরবর্তী ধাপে যুক্ত করা হবে।"
+      );
+
+    }
+
+  </script>
+
+</body>
+</html>
